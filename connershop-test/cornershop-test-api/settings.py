@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
-ROOT_URLCONF = 'cornershop-test-api.urls'
+ROOT_URLCONF = 'cornershop-test.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'cornershop-test-api.wsgi.application'
+WSGI_APPLICATION = 'cornershop-test.wsgi.application'
 
 DATABASES = {
     'default': {

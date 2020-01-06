@@ -1,14 +1,14 @@
 version: '2'
 services:
-  cornershop-test-api:
-    image: cornershop-test-api:dev
+  cornershop-test:
+    image: cornershop-test:dev
     volumes:
-      - ./cornershop-test-api/:/usr/src/app
+      - ./cornershop-test/:/usr/src/app
       - ./docker/django/gunicorn.py:/etc/gunicorn.py
     links:
-      - cornershop-test-api-db:db_server
+      - cornershop-test-db:db_server
     depends_on:
-      - cornershop-test-api-db
+      - cornershop-test-db
     environment:
       DBUSER: cornershop
       DBPASS: 123123
@@ -16,7 +16,7 @@ services:
       DBHOST: db_server
       APP_ENV: DEV
 
-  cornershop-test-api-db:
+  cornershop-test-db:
     image: postgres:9
     environment:
       POSTGRES_DB: cornershop
@@ -27,13 +27,13 @@ services:
     volumes:
       - ./data/:/var/lib/postgresql/data/
 
-  cornershop-test-api-nginx:
+  cornershop-test-nginx:
     image: cornershop-test-gateway:dev
     ports:
       - 80:80
     links:
-      - cornershop-test-api
+      - cornershop-test
     depends_on:
-      - cornershop-test-api
+      - cornershop-test
     environment:
-      GUNICORN_SERVER_IP: http:\/\/cornershop-test-api
+      GUNICORN_SERVER_IP: http:\/\/cornershop-test
