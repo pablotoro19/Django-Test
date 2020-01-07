@@ -8,7 +8,7 @@ from pytz import timezone
 
 
 class MenuOptionsSerializer(ModelSerializer):
-    
+
     class Meta:
         model = MenuOptions
         fields = ('option', 'description')
@@ -46,10 +46,10 @@ class MenuSerializer(ModelSerializer):
 
     def create(self, validated_data):
         dt = datetime.combine(validated_data['menu_date'], datetime.min.time())
-        menu_date = timezone('America/Santiago').localize(dt)
+        menu_date = (timezone('America/Santiago').localize(dt)).strftime("%Y-%m-%d")
 
         menu = Menu.objects.create(
-            menu_date=menu_date.strftime("%Y-%m-%d"))
+            menu_date=menu_date)
 
         for option in validated_data['options']:
             MenuOptions.objects.create(

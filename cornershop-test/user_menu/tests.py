@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 import pytz
+from commons.helpers import get_now_cl
 
 import factory
 from menu.factories import MenuFactory, MenuOptionsFactory
@@ -39,7 +40,7 @@ class UserMenuTestCase(APITestCase):
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_get_ordes_today(self):
-        menu_date=date.today().strftime("%Y-%m-%d")
+        menu_date = get_now_cl().strftime("%Y-%m-%d")
         menu = MenuFactory(menu_date=menu_date)
         menu_opt = MenuOptionsFactory(menu=menu)
         user = UserFactory()

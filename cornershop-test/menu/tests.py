@@ -1,11 +1,10 @@
 from datetime import date, timedelta
 
-import pytz
-
 import factory
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
+from commons.helpers import get_now_cl
 
 from .factories import MenuFactory, MenuOptionsFactory
 
@@ -21,7 +20,7 @@ class FakeHttpResponse():
 class MenuTestCase(APITestCase):
 
     def test_get_menu_today(self):
-        menu_date=date.today()
+        menu_date = get_now_cl().strftime("%Y-%m-%d")
         menu = MenuFactory(menu_date=menu_date)
         MenuOptionsFactory(menu=menu)
         url = reverse('get_menu')

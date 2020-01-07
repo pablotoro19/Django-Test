@@ -34,9 +34,11 @@ class MenuViewSet(ViewSet):
             menu_serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def get(self, request):
-        today_cl = get_now_cl()
+        today = get_now_cl().strftime("%Y-%m-%d")
+        menu_date = request.query_params.get('menu_date', today)
+
         try:
-            menu = Menu.objects.get(menu_date=today_cl.strftime("%Y-%m-%d"))
+            menu = Menu.objects.get(menu_date=menu_date)
         except Menu.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
