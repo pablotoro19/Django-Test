@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+cornershop-test/coverage_html_report
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+
+# Django stuff:
+*.log
+.static_storage/
+.media/
+local_settings.py
+
+# Project specific
+data/
+.idea/
+.DS_Store
+.env
