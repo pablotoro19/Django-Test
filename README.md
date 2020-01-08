@@ -46,4 +46,4 @@ $ make test
 $ make coverage_report
 ```
 
-![Alt text](cornershop-test.jpg?raw=true "Component Model")
+![Alt text](/cornershop-test.jpg?raw=true "Component Model")
