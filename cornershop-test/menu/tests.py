@@ -1,10 +1,10 @@
 from datetime import date, timedelta
 
 import factory
+from commons.helpers import generate_uuid, get_now_cl
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
-from commons.helpers import get_now_cl
 
 from .factories import MenuFactory, MenuOptionsFactory
 
@@ -23,13 +23,16 @@ class MenuTestCase(APITestCase):
         menu_date = get_now_cl().strftime("%Y-%m-%d")
         menu = MenuFactory(menu_date=menu_date)
         MenuOptionsFactory(menu=menu)
-        url = reverse('get_menu')
+        url = reverse('get_menu', kwargs={'uuid': menu.uuid})
         response = self.client.get(f'{url}', format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['menu']), 1)
 
     def test_get_menu_empty_today(self):
-        url = reverse('get_menu')
+        uuid = generate_uuid()
+        menu_date = get_now_cl().strftime("%Y-%m-%d")
+        menu = MenuFactory(menu_date=menu_date)
+        url = reverse('get_menu', kwargs={'uuid': uuid})
         response = self.client.get(f'{url}', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 

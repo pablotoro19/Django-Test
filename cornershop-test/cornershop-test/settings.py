@@ -13,14 +13,14 @@ ADMIN_ID=1
 
 LIMIT_TIME = os.environ.get('LIMIT_TIME', 23)
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = {
     'DEV': lambda: ["*"],
 }[os.environ.get('APP_ENV', 'DEV')]()
 
-SLACK_TOKEN = 'xoxb-293351272678-wSKCUxU7kpliAictKiSCYJJS'
-SLACK_CHANNEL = '#general'
+SLACK_TOKEN = 'xoxp-895727865191-893879730005-885527111649-86318dc6638d972be4d3cdb5617179f4'
+SLACK_CHANNEL = '#almuerzo'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,7 +48,7 @@ ROOT_URLCONF = 'cornershop-test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

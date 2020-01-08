@@ -9,11 +9,21 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
+from django.shortcuts import render
 from .serializers import MenuOptionsSerializer, MenuSerializer
 
 
 class MenuViewSet(ViewSet):
+    
+    def index(request):
+        print('paso1')
+        # context = {
+        #     'id': menu.id,
+        #     'uuid': menu.uuid,
+        #     'menu_date': menu.menu_date,
+        #     'menu': menu_opt_serializer.data
+        # }
+        return render(request, 'menu/index.html')
 
     def create(self, request, user_id):
         #Nora is system admin
@@ -33,21 +43,18 @@ class MenuViewSet(ViewSet):
         return Response(
             menu_serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
-    def get(self, request):
-        today = get_now_cl().strftime("%Y-%m-%d")
-        menu_date = request.query_params.get('menu_date', today)
-
+    def get(self, request, uuid):
         try:
-            menu = Menu.objects.get(menu_date=menu_date)
+            menu = Menu.objects.get(uuid=uuid)
         except Menu.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         menu_options = MenuOptions.objects.filter(
             menu=menu.id).all().order_by('option')
         menu_opt_serializer = MenuOptionsSerializer(menu_options, many=True)
+
         return Response(
-            {'id': menu.id,
-             'uuid': menu.uuid,
+            {'uuid': menu.uuid,
              'menu_date': menu.menu_date,
              'menu': menu_opt_serializer.data
              })
