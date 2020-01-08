@@ -15,8 +15,10 @@ up:
 	docker-compose up
 
 load-data:
-	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata gps/fixtures/countries.json'
-	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata sends/fixtures/clusters.json'
+	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata menu/fixtures/menu.json'
+	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata menu/fixtures/options.json'
+	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata user/fixtures/users.json'
+	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py loaddata user_menu/fixtures/orders.json'
 
 migrate:
 	docker-compose run --rm ${SERVICE} sh -c './wait-for.sh python manage.py migrate'

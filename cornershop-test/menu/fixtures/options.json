@@ -1,0 +1,38 @@
+[
+  {
+    "model": "menu.menuoptions",
+    "pk": 1,
+    "fields":{
+      "menu": 1,
+      "option": "1",
+      "description": "Pure con vienesas y ensalada"
+    }
+  },
+  {
+    "model": "menu.menuoptions",
+    "pk": 2,
+    "fields":{
+      "menu": 1,
+      "option": "2",
+      "description": "Arroz con pollo y ensalada"
+    }
+  },
+  {
+    "model": "menu.menuoptions",
+    "pk": 3,
+    "fields":{
+      "menu": 1,
+      "option": "3",
+      "description": "Hamburguesa y papas"
+    }
+  },
+  {
+    "model": "menu.menuoptions",
+    "pk": 4,
+    "fields":{
+      "menu": 1,
+      "option": "4",
+      "description": "Lentejas y ensalada de tomate"
+    }
+  }
+]

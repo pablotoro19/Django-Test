@@ -1,52 +1,71 @@
-# Cornershop's Backend Test
+# Cornershop Test
 
-This technical test requires the design and implementation (using Django) of a basic management system to coordinate the meal delivery for Cornershop employees.
+## System requirements
+Install Docker (Latest stable version)
 
+## Virtualenv
+```shell
+$ pip install virtualenv
+$ virtualenv venv_cornershop
+$ source venv_cornershop/bin/activate
+```
+## Add file secret.py
+```python
+# -*- coding: utf-8 -*-
 
-## Description
+EMAIL_HOST_USER = 'your_email'
+EMAIL_HOST_PASSWORD = 'your_email_password'
+DEFAULT_FROM_EMAIL = 'jfarriagada91@gmail.com'
+TOKEN_SLACK = 'your_token_slack'
+```
 
-The current process consist of a person (Nora) sending a text message via Whatsapp to all the chilean employees, the message contains today's menu with the different alternatives for lunch.
+## Project
+```shell
+$ git clone https://github.com/jfarriagada/cornershop.git
+$ cd cornershop/
+$ pip install -r requirements.txt
+$ python manage.py migrate
+```
 
-> Hola!  
-> Dejo el menú de hoy :)
->
-> Opción 1: Pastel de choclo, Ensalada y Postre  
-> Opción 2. Arroz con nugget de pollo, Ensalada y Postre  
-> Opción 3: Arroz con hamburguesa, Ensalada y Postre  
-> Opción 4: Ensalada premium de pollo y Postre  
->
-> Tengan lindo día!
+## Setup load initial data (Order matters) or "one click"
+```shell
+$ python manage.py loaddata menu/fixtures/users.json
+$ python manage.py loaddata menu/fixtures/trader_profile.json
+$ python manage.py loaddata menu/fixtures/employees.json
+$ python manage.py loaddata menu/fixtures/menu.json
+$ python manage.py loaddata menu/fixtures/option.json
+$ python manage.py loaddata menu/fixtures/order.json
+```
 
-With the new system, Nora should be able to:
+```shell
+$ chmod +x one_click.sh
+$ ./one_click.sh
+```
 
-- Create a menu for a specific date.
-- Send a Slack reminder with today's menu to all chilean employees (this process needs to be asynchronous).
+## Terminal 1 run django
+```shell
+$ python manage.py runserver
+```
 
-The employees should be able to:
+## Terminal 2 run redis
+```shell
+redis-4.0.0$ src/redis-server
+```
 
-- Choose their preferred meal (until 11 AM CLT).
-- Specify customizations (e.g. no tomatoes in the salad).
+## Terminal 3 run celery
+```shell
+celery worker -A cornershop.celery_app --loglevel=DEBUG
+```
 
-Nora should be the only user to be able to see what the Cornershop employees have requested, and to create and edit today's menu. The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested.
+## Login
+ADMIN cornershop:cornershop <br />
+USER nora:lavendedora
 
-NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.cornershop.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (an UUID), this page must not require authentication of any kind.
+## Menu
+http://localhost:8000/menu/886313e1-3b8a-5372-9b90-0c9aee199e5d
 
-## Aspects to be evaluated
+## Test
+$ python manage.py test menu
 
-Since the system is very simple (yet powerful in terms of yumminess) we'll be evaluating, besides functionality, these aspects:
-
-- Testing
-- Documentation
-- Software design
-- Programming style
-- Repository history
-- Appropriate framework use
-
-## Aspects to be ignored
-
-- Visual design of the solution
-- Deployment of the solution
-
-## Restrictions
-
-- The usage of Django's admin is forbidden.
+## Youtube Vídeo
+[https://youtu.be/_T3Q_wvCns0](https://youtu.be/_T3Q_wvCns0)

@@ -1,0 +1,32 @@
+[
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields":{
+      "name": "Nora",
+      "username": "noritaadmin",
+      "email": "noritaadmin@menu.cl",
+      "country_code": "CL"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields":{
+      "name": "Pablo",
+      "username": "pablo_1",
+      "email": "pablo@menu.cl",
+      "country_code": "CL"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields":{
+      "name": "Osvaldo",
+      "username": "osvaldo_m",
+      "email": "osvaldo@menu.cl",
+      "country_code": "CL"
+    }
+  }
+]
