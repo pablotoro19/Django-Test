@@ -4,20 +4,22 @@ from .views import MenuViewSet
 
 
 get_menu = MenuViewSet.as_view({
-    'get': 'get',
+    'get': 'get_menu',
 })
 
 create_menu = MenuViewSet.as_view({
-    'post': 'create',
+    'post': 'create_menu',
 })
 
-update_menu = MenuViewSet.as_view({
-    'put': 'update',
+options = MenuViewSet.as_view({
+    'post': 'create_option',
+    'put': 'update_option',
 })
+
 
 urlpatterns = [
     path('home', MenuViewSet.index),
     path('<uuid:uuid>', get_menu, name='get_menu'),
     path('user/<int:user_id>', create_menu, name='create_menu'),
-    path('<int:id>/user/<int:user_id>', update_menu, name='update_menu'),
+    path('option/user/<int:user_id>', options, name='options'),
 ]
