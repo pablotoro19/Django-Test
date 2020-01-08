@@ -23,7 +23,7 @@ ADMIN_ID = 'default=1'
 LIMIT_TIME = 'default=11'
 ```
 
-## Load data initial"
+## Load data
 ```shell
 $ make load-data
 ```
@@ -41,5 +41,9 @@ USER nora:lavendedora
 http://localhost:8000/menu/886313e1-3b8a-5372-9b90-0c9aee199e5d
 
 ## Test
+```shell
 $ make test
 $ make coverage_report
+```
+
+![Alt text](cornershop-test.jpg?raw=true "Component Model")
