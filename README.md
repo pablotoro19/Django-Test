@@ -3,58 +3,34 @@
 ## System requirements
 Install Docker (Latest stable version)
 
-## Virtualenv
+## Init Project
 ```shell
-$ pip install virtualenv
-$ virtualenv venv_cornershop
-$ source venv_cornershop/bin/activate
+$ git clone https://git@github.com:pablotoro19/Backend-Test-Toro.git
+$ cd Backend-Test-Toro/
 ```
-## Add file secret.py
+
+## Create Docker image and data base (postgresql)
+```shell
+$ make images
+$ make migrate
+```
+
+## In settings.py add configurations
 ```python
-# -*- coding: utf-8 -*-
 
-EMAIL_HOST_USER = 'your_email'
-EMAIL_HOST_PASSWORD = 'your_email_password'
-DEFAULT_FROM_EMAIL = 'jfarriagada91@gmail.com'
-TOKEN_SLACK = 'your_token_slack'
+TOKEN_SLACK = 'token_slack'
+ADMIN_ID = 'default=1'
+LIMIT_TIME = 'default=11'
 ```
 
-## Project
+## Load data initial"
 ```shell
-$ git clone https://github.com/jfarriagada/cornershop.git
-$ cd cornershop/
-$ pip install -r requirements.txt
-$ python manage.py migrate
+$ make load-data
 ```
 
-## Setup load initial data (Order matters) or "one click"
+## Run project
 ```shell
-$ python manage.py loaddata menu/fixtures/users.json
-$ python manage.py loaddata menu/fixtures/trader_profile.json
-$ python manage.py loaddata menu/fixtures/employees.json
-$ python manage.py loaddata menu/fixtures/menu.json
-$ python manage.py loaddata menu/fixtures/option.json
-$ python manage.py loaddata menu/fixtures/order.json
-```
-
-```shell
-$ chmod +x one_click.sh
-$ ./one_click.sh
-```
-
-## Terminal 1 run django
-```shell
-$ python manage.py runserver
-```
-
-## Terminal 2 run redis
-```shell
-redis-4.0.0$ src/redis-server
-```
-
-## Terminal 3 run celery
-```shell
-celery worker -A cornershop.celery_app --loglevel=DEBUG
+$ make up
 ```
 
 ## Login
@@ -65,7 +41,5 @@ USER nora:lavendedora
 http://localhost:8000/menu/886313e1-3b8a-5372-9b90-0c9aee199e5d
 
 ## Test
-$ python manage.py test menu
-
-## Youtube Vídeo
-[https://youtu.be/_T3Q_wvCns0](https://youtu.be/_T3Q_wvCns0)
+$ make test
+$ make coverage_report
