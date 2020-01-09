@@ -46,6 +46,3 @@ coverage:
 
 coverage_report:
 	docker-compose run --rm ${SERVICE} coverage report
-
-coverage_html_report:
-	docker-compose run --rm ${SERVICE} coverage html

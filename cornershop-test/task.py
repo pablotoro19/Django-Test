@@ -9,22 +9,22 @@ from secret import TOKEN_SLACK
 from slackclient import SlackClient
 
 uuid = generate_uuid()
-url_menu_today = "http://localhost/menu/%s" % str(uuid)
+url_menu = "http://localhost/menu/%s" % str(uuid)
 
 
 @shared_task
-def send_slack(option):
+def send_slack(options):
     token = settings.SLACK_TOKEN
     sc = SlackClient(slack_token)
 
-    options = []
+    menu_options = []
     for o in option:
-        options.append(str(o.description))
+        menu_options.append(str(o.description))
 
-    option_description = str(options)
+    descriptions = str(menu_options)
 
     sc.api_call(
         "chat.postMessage",
         channel=settings.SLACK_CHANNEL,
-        text="Hola!. \nDejo el menú de hoy :)\n"+ option_description + "\nurl : "+ url_menu_today +" \nTengan un lindo día! "
+        text="Hola!. \nDejo el menú de hoy :)\n"+ descriptions + "\nurl : "+ url_menu +" \nTengan un lindo día! "
     )

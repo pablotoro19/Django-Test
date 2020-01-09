@@ -19,6 +19,7 @@ $ make migrate
 ```python
 
 TOKEN_SLACK = 'token_slack'
+SLACK_CHANNEL = 'default=#almuerzo'
 ADMIN_ID = 'default=1'
 LIMIT_TIME = 'default=11'
 ```
@@ -40,7 +41,10 @@ $ make coverage_report
 ```
 
 ## Components model
-![Alt text](/cornershop-test.jpg?raw=true "Components Model")
+![Alt text](/img/components-model.jpg?raw=true "Components Model")
+
+## Data base model
+![Alt text](/img/database-model.jpg?raw=true "Data base Model")
 
 
 
