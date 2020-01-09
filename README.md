@@ -1,52 +1,292 @@
-# Cornershop's Backend Test
+# Cornershop Test
 
-This technical test requires the design and implementation (using Django) of a basic management system to coordinate the meal delivery for Cornershop employees.
+## System requirements
+Install Docker (Latest stable version)
+
+## Init Project
+```shell
+$ git clone https://github.com/pablotoro19/Backend-Test-Toro.git
+$ cd Backend-Test-Toro/
+```
+
+## Create Docker image and data base (postgresql)
+```shell
+$ make images
+$ make migrate
+```
+
+## In settings.py add configurations
+```python
+
+TOKEN_SLACK = 'token_slack'
+SLACK_CHANNEL = 'default=#almuerzo'
+ADMIN_ID = 'default=1'
+LIMIT_TIME = 'default=11'
+```
+
+## Load data
+```shell
+$ make load-data
+```
+
+## Run project
+```shell
+$ make up
+```
+
+## Test
+```shell
+$ make test
+$ make coverage_report
+```
+
+## Components model
+![Alt text](/img/components-model.jpg?raw=true "Components Model")
+
+## Entity–relationship model
+![Alt text](/img/database-model.png?raw=true "Data base Model")
 
 
-## Description
 
-The current process consist of a person (Nora) sending a text message via Whatsapp to all the chilean employees, the message contains today's menu with the different alternatives for lunch.
+# API
+Examples with data loaded previously(Load data) and fake data
 
-> Hola!  
-> Dejo el menú de hoy :)
->
-> Opción 1: Pastel de choclo, Ensalada y Postre  
-> Opción 2. Arroz con nugget de pollo, Ensalada y Postre  
-> Opción 3: Arroz con hamburguesa, Ensalada y Postre  
-> Opción 4: Ensalada premium de pollo y Postre  
->
-> Tengan lindo día!
 
-With the new system, Nora should be able to:
+## Menu
 
-- Create a menu for a specific date.
-- Send a Slack reminder with today's menu to all chilean employees (this process needs to be asynchronous).
+**Create Menu:** https://localhost/menu/user/{user_id}
 
-The employees should be able to:
+* method: POST
 
-- Choose their preferred meal (until 11 AM CLT).
-- Specify customizations (e.g. no tomatoes in the salad).
+* Request
 
-Nora should be the only user to be able to see what the Cornershop employees have requested, and to create and edit today's menu. The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested.
+https://localhost/menu/user/1
 
-NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.cornershop.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (an UUID), this page must not require authentication of any kind.
+```json
+{
+	"menu_date": "2020-01-09"
+}
+```
+* Response
+```json
+{
+    "id": 2,
+    "uuid": "51a9bd1d-1896-4174-902e-265da2fcdb33",
+    "menu_date": "2020-01-09"
+}
+```
 
-## Aspects to be evaluated
+**List Menu:** https://localhost/menu
 
-Since the system is very simple (yet powerful in terms of yumminess) we'll be evaluating, besides functionality, these aspects:
+* method: GET
 
-- Testing
-- Documentation
-- Software design
-- Programming style
-- Repository history
-- Appropriate framework use
+* Request
 
-## Aspects to be ignored
+https://localhost/menu
 
-- Visual design of the solution
-- Deployment of the solution
+* Response
+```json
+[
+    {
+        "id": 1,
+        "uuid": "68be4876-843f-4765-a1c7-8ec2453b2fb5",
+        "menu_date": "2020-01-08"
+    },
+    {
+        "id": 2,
+        "uuid": "51a9bd1d-1896-4174-902e-265da2fcdb33",
+        "menu_date": "2020-01-09"
+    }
+]
+```
 
-## Restrictions
+**Get Menu:** https://localhost/menu/{uuid}
 
-- The usage of Django's admin is forbidden.
+* method: GET
+
+* Request
+
+https://localhost/menu/68be4876-843f-4765-a1c7-8ec2453b2fb5
+
+* Response
+```json
+{
+    "id": 1,
+    "uuid": "68be4876-843f-4765-a1c7-8ec2453b2fb5",
+    "menu_date": "2020-01-08",
+    "options": [
+        {
+            "menu": 1,
+            "option": 1,
+            "description": "Pure con vienesas y ensalada"
+        },
+        {
+            "menu": 1,
+            "option": 2,
+            "description": "Arroz con pollo y ensalada"
+        },
+        {
+            "menu": 1,
+            "option": 3,
+            "description": "Hamburguesa y papas"
+        },
+        {
+            "menu": 1,
+            "option": 4,
+            "description": "Lentejas y ensalada de tomate"
+        }
+    ]
+}
+```
+
+
+## Option
+
+**Create Option:** https://localhost/menu/option/user/{user_id}
+
+* method: POST
+
+* Request
+
+https://localhost/menu/option/user/1
+
+```json
+{
+	"menu": 2,
+	"option" : 1,
+	"description": "Pollo con papas fritas y Ensalada"
+}
+```
+* Response
+```json
+{
+    "menu": 2,
+    "option": 1,
+    "description": "Pollo con papas fritas y Ensalada"
+}
+```
+
+**Update Option:** https://localhost/menu/option/user/{user_id}
+
+* method: PUT
+
+* Request
+
+https://localhost/menu/option/user/1
+
+```json
+{
+	"menu": 1,
+	"option" : 1,
+	"description": "Pastel de choclo y ensalada"
+}
+```
+* Response
+```json
+{
+    "menu": 1,
+    "option": 1,
+    "description": "Pastel de choclo y ensalada"
+}
+```
+
+
+## User
+
+**Create User:** https://localhost/user
+
+* method: POST
+
+* Request
+
+https://localhost/user
+
+```json
+{
+	"name": "Juan",
+	"username": "juanito",
+	"email": "juanito@menu.com",
+	"country_code": "CL"
+}
+```
+* Response
+```json
+{
+    "id": 4,
+    "name": "Juan",
+    "username": "juanito",
+    "email": "juanito@menu.com",
+    "country_code": "CL"
+}
+```
+
+**Get User:** https://localhost/user/{user_id}
+
+* method: GET
+
+* Request
+
+https://localhost/user/4
+
+* Response
+```json
+{
+    "id": 4,
+    "name": "Juan",
+    "username": "juanito",
+    "email": "juanito@menu.com",
+    "country_code": "CL"
+}
+```
+
+
+## Order
+
+**Create Order:** https://localhost/order/user/{user_id}
+
+* method: POST
+
+* Request
+
+https://localhost/order/user/4
+
+```json
+{
+	"menu": 1,
+	"menu_option": 1,
+	"quantity": 2,
+	"customizations": "Ensalada solo con limon"
+}
+```
+* Response
+```json
+{
+    "message": "Order created successfully",
+    "order": "Arroz con pollo y ensalada",
+    "customizations": "Ensalada solo con limon",
+    "order_date": "2020-01-08"
+}
+```
+
+**Get Orders:** https://localhost/order/user/{user_id}
+
+* method: GET
+
+* Request
+
+https://localhost/order/user/4
+
+* Response
+```json
+[
+    {
+        "customizations": "Ensalada solo con limon",
+        "option": "Arroz con pollo y ensalada",
+        "menu_option": 2,
+        "quantity": 2,
+        "order_date": "2020-01-08",
+        "user_name": "Juan",
+        "user_id": 4
+    }
+]
+```

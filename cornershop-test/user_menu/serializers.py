@@ -25,8 +25,6 @@ class UserMenuSerializer(ModelSerializer):
             )
 
     def get_option(self, user_menu):
-        print('===========')
-        print(user_menu.__dict__)
         mo = MenuOptions.objects.filter(id=user_menu.menu_option.id).first()
         return mo.description
 

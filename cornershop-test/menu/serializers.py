@@ -1,39 +1,17 @@
+from datetime import date, datetime
+
+from pytz import timezone
+
 from menu.models import Menu, MenuOptions
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 
-from datetime import date
-from datetime import datetime
-from pytz import timezone
-
-
-class MenuOptionsSerializer(ModelSerializer):
-
-    class Meta:
-        model = MenuOptions
-        fields = ('option', 'description')
-
-    def validate(self, data):
-        if 'option' not in data:
-            raise ValidationError({'option': 'Option cannot be empty'})
-        if 'description' not in data:
-            raise ValidationError({'description': 'Description cannot be empty'})
-
-        return data
-
-    def update(self, instance, validated_data):
-        instance.option = validated_data.get('option', instance.option)
-        instance.description = validated_data.get('description', instance.description)
-
-        instance.save()
-        return instance
 
 class MenuSerializer(ModelSerializer):
-    options = MenuOptionsSerializer(many=True)
 
     class Meta:
         model = Menu
-        fields = ('menu_date', 'options')
+        fields = ('id', 'uuid', 'menu_date',)
 
     def validate(self, data):
         if 'menu_date' not in data:
@@ -51,10 +29,32 @@ class MenuSerializer(ModelSerializer):
         menu = Menu.objects.create(
             menu_date=menu_date)
 
-        for option in validated_data['options']:
-            MenuOptions.objects.create(
-                option=option['option'],
-                description=option['description'],
-                menu=menu)
-
         return menu
+
+
+class MenuOptionsSerializer(ModelSerializer):
+
+    class Meta:
+        model = MenuOptions
+        fields = ('menu', 'option', 'description')
+
+    def validate(self, data):
+        if 'menu' not in data:
+            raise ValidationError({'Menu': 'Menu cannot be empty'})
+        if 'option' not in data:
+            raise ValidationError({'option': 'Option cannot be empty'})
+        if 'description' not in data:
+            raise ValidationError({'description': 'Description cannot be empty'})
+
+        return data
+
+    def create(self, validated_data):
+        option = MenuOptions.objects.create(**validated_data)
+        return option
+
+    def update(self, instance, validated_data):
+        instance.option = validated_data.get('option', instance.option)
+        instance.description = validated_data.get('description', instance.description)
+
+        instance.save()
+        return instance

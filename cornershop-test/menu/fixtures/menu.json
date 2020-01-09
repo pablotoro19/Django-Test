@@ -1,0 +1,9 @@
+[
+  {
+    "model": "menu.menu",
+    "pk": 1,
+    "fields":{
+      "menu_date": "2020-01-08"
+    }
+  }
+]

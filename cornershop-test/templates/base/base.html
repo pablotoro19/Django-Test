@@ -1,0 +1,24 @@
+<DOCTYPE html>
+<html lang=es>
+<head>
+<meta charset="utf-8">
+<title>{% block title %} Page Title {% endblock %}</title>
+</head>
+<body>
+  <h4>id: {{id}}</h4>
+  <h4>uuid: {{uuid}}</h4>
+  <h4>menu_date: {{menu_date}}</h4>
+  <h4>menu: {{menu}}</h4>
+{% block header %}
+<h4>este es el bloque del header base 123456</h4>
+{% endblock %}
+
+{% block content %}
+<h5>este es el contenido del archivo base</h5>
+{% endblock %}
+
+{% block footer %}
+<h5>este es el footer del base</h5>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {
+    "model": "user_menu.usermenu",
+    "pk": 1,
+    "fields":{
+      "user": 2,
+      "menu_option": 2,
+      "quantity":2,
+      "customizations": "cambiar ensalada por arroz"
+    }
+  },
+  {
+    "model": "user_menu.usermenu",
+    "pk": 2,
+    "fields":{
+      "user": 3,
+      "menu_option": 1,
+      "quantity":1,
+      "customizations": "sin sal por favor"
+    }
+  }
+]

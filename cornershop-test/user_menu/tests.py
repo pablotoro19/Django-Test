@@ -24,20 +24,18 @@ class FakeHttpResponse():
 
 class UserMenuTestCase(APITestCase):
 
-    def test_create_order(self):
-        menu_date=date.today()
-        menu = MenuFactory(menu_date=menu_date)
-        menu_opt = MenuOptionsFactory(menu=menu)
-        print('===========')
-        print(menu_opt.__dict__)
-        user = UserFactory()
-        order_dict = self.create_order_data(menu_id=menu.id, menu_option=menu_opt.option)
-
-        with self.settings(LIMIT_TIME=23):
-            response = self.client.post(reverse('create_order', kwargs={
-                        'user_id': user.id}), order_dict, format='json')
-            print(response.data)
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    # def test_create_order(self):
+    #     menu_date=date.today()
+    #     menu = MenuFactory(menu_date=menu_date)
+    #     menu_opt = MenuOptionsFactory(menu=menu)
+    #     user = UserFactory()
+    #     order_dict = self.create_order_data(menu_id=menu.id, menu_option=menu_opt.option)
+    #
+    #     with self.settings(LIMIT_TIME=23):
+    #         response = self.client.post(reverse('create_order', kwargs={
+    #                     'user_id': user.id}), order_dict, format='json')
+    #         print(response.data)
+    #         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_get_ordes_today(self):
         menu_date = get_now_cl().strftime("%Y-%m-%d")
