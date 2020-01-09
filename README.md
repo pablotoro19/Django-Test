@@ -5,7 +5,7 @@ Install Docker (Latest stable version)
 
 ## Init Project
 ```shell
-$ git clone https://git@github.com:pablotoro19/Backend-Test-Toro.git
+$ git clone https://github.com/pablotoro19/Backend-Test-Toro.git
 $ cd Backend-Test-Toro/
 ```
 
@@ -43,7 +43,7 @@ $ make coverage_report
 ## Components model
 ![Alt text](/img/components-model.jpg?raw=true "Components Model")
 
-## Data Base model
+## Entity–relationship model
 ![Alt text](/img/database-model.png?raw=true "Data base Model")
 
 
