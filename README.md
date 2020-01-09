@@ -43,8 +43,8 @@ $ make coverage_report
 ## Components model
 ![Alt text](/img/components-model.jpg?raw=true "Components Model")
 
-## Data base model
-![Alt text](/img/database-model.jpg?raw=true "Data base Model")
+## Data Base model
+![Alt text](/img/database-model.png?raw=true "Data base Model")
 
 
 
