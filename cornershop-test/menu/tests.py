@@ -19,6 +19,23 @@ class FakeHttpResponse():
 
 class MenuTestCase(APITestCase):
 
+    def test_list_menu(self):
+        menu_date = get_now_cl().strftime("%Y-%m-%d")
+        menu_date_2 = (get_now_cl() + timedelta(days=1)).strftime("%Y-%m-%d")
+        MenuFactory(menu_date=menu_date)
+        MenuFactory(menu_date=menu_date_2)
+
+        url = reverse('list_menu')
+        response = self.client.get(f'{url}', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
+    def test_list_menu_empty(self):
+        url = reverse('list_menu')
+        response = self.client.get(f'{url}', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 0)
+
     def test_get_menu_today(self):
         menu_date = get_now_cl().strftime("%Y-%m-%d")
         menu = MenuFactory(menu_date=menu_date)

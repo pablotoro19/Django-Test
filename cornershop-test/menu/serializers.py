@@ -7,6 +7,31 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 
 
+class MenuSerializer(ModelSerializer):
+
+    class Meta:
+        model = Menu
+        fields = ('id', 'uuid', 'menu_date',)
+
+    def validate(self, data):
+        if 'menu_date' not in data:
+            raise ValidationError({'menu_date': 'Menu date cannot be empty'})
+        if Menu.objects.filter(menu_date=data['menu_date']).count() > 0:
+            raise ValidationError(
+                {'menu_date': 'Menu for the date has already been created'})
+
+        return data
+
+    def create(self, validated_data):
+        dt = datetime.combine(validated_data['menu_date'], datetime.min.time())
+        menu_date = (timezone('America/Santiago').localize(dt)).strftime("%Y-%m-%d")
+
+        menu = Menu.objects.create(
+            menu_date=menu_date)
+
+        return menu
+
+
 class MenuOptionsSerializer(ModelSerializer):
 
     class Meta:
@@ -33,27 +58,3 @@ class MenuOptionsSerializer(ModelSerializer):
 
         instance.save()
         return instance
-
-class MenuSerializer(ModelSerializer):
-
-    class Meta:
-        model = Menu
-        fields = ('menu_date',)
-
-    def validate(self, data):
-        if 'menu_date' not in data:
-            raise ValidationError({'menu_date': 'Menu date cannot be empty'})
-        if Menu.objects.filter(menu_date=data['menu_date']).count() > 0:
-            raise ValidationError(
-                {'menu_date': 'Menu for the date has already been created'})
-
-        return data
-
-    def create(self, validated_data):
-        dt = datetime.combine(validated_data['menu_date'], datetime.min.time())
-        menu_date = (timezone('America/Santiago').localize(dt)).strftime("%Y-%m-%d")
-
-        menu = Menu.objects.create(
-            menu_date=menu_date)
-
-        return menu

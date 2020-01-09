@@ -44,7 +44,7 @@ class MenuViewSet(ViewSet):
         try:
             menu = Menu.objects.get(uuid=uuid)
         except Menu.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({'Menu not found'}, status=status.HTTP_404_NOT_FOUND)
 
         menu_options = MenuOptions.objects.filter(
             menu=menu.id).all().order_by('option')
@@ -56,6 +56,17 @@ class MenuViewSet(ViewSet):
              'menu_date': menu.menu_date,
              'options': menu_opt_serializer.data
              })
+
+    def list_menu(self, request):
+        try:
+            menu = Menu.objects.all()
+        except Menu.DoesNotExist:
+            return Response(
+                {'Menus not created'}, status=status.HTTP_404_NOT_FOUND)
+
+        menu_serializer = MenuSerializer(menu, many=True)
+
+        return Response(menu_serializer.data)
 
 
 

@@ -24,7 +24,7 @@ class UserMenuViewSet(ViewSet):
 
         order_data = request.data
         order_serializer = UserMenuSerializer(data=order_data)
-        
+
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
@@ -56,7 +56,9 @@ class UserMenuViewSet(ViewSet):
                 order.order_date.add(order_data['order_date'])
             return Response(
                 {'message': 'Order created successfully',
-                  'order_date': order.order_date},
+                 'order': order.menu_option.description,
+                 'customizations': order.customizations,
+                 'order_date': order.order_date},
                  status=status.HTTP_201_CREATED)
         return Response(
             order_serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
